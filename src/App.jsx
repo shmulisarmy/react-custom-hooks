@@ -14,15 +14,17 @@ import useSelector from './hooks/Selector.tsx';
 
 
 function UsersSection() {
-  const triggerRerender = useStore(initial_users);
-  const [users, deleteUser, addNewUser, sortUsers, clearUsers, updateUser, swap] = UseList(initial_users, triggerRerender);
+  const [users, deleteUser, addNewUser, sortUsers, clearUsers, updateItem, swap] = UseList(initial_users);
 
   return (
     <div className="UsersSection">
       <div id="users">
 
 
-      <For each={users} childComponentMaker={(user, index) => <User index={index} swap={swap} deleteUser={deleteUser} updateUser={updateUser} key={user.id} user={user}/>} />
+      <For each={users}>
+        {(user, index) => <User index={index} swap={swap} deleteUser={deleteUser} updateItem={updateItem} key={user.id} user={user}/>}
+
+      </For>
       </div>
 
       <button onClick={addNewUser}>Add New User</button>
@@ -56,27 +58,28 @@ const [theme, nextTheme, prevTheme] = useSelector(['theme', 'light', "dark"]);
 
 export default App;
 function CountSection2() {
-  const [setCount] = useStore(countObject);
+  const [_, setCount] = useStore(countObject);
 
   return <>
   <button onClick={() => setCount("count", countObject.count + 1)}>Count is {countObject.count}</button>
   <button onClick={() => setCount("double", countObject.count * 2)}>double is {countObject.double}</button>
   <button onClick={() => setCount("double", undefined)}>remove double</button>
   <button onClick={() => console.log(countObject)}>log</button>
-  <Show condition={countObject.count % 2 === 0}>
+  <Show when={countObject.count % 2 === 0}>
     <h1>Count is even</h1>
   </Show>
   </>
 }
 
-function User({user, deleteUser, updateUser, swap, index}) {
+
+function User({user, deleteUser, updateItem, swap, index}) {
   return <div key={user.id} className='user'>
     <h1>{user.name}</h1>
     <h3>age: {user.age}</h3>
     <h3>country: {user.country}</h3>
     <h3>city: {user.city}</h3>
     <button onClick={() => deleteUser(user.id)}>Delete User</button>
-    <button onClick={() => updateUser(user.id, 'age', user.age + 1)}>Update User</button>
+    <button onClick={() => updateItem(user.id, 'age', (prev) => prev + 1)}>Update User</button>
     <button onClick={() => swap(index - 1, index)}>{"<-"}</button>
     <button onClick={() => swap(index + 1, index)}>{"->"}</button>
   </div>;

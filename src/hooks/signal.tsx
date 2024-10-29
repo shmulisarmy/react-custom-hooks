@@ -31,5 +31,5 @@ export function useStore(store: any) {
 
     }
   
-    return [setStore]
+    return [store, setStore]
   }

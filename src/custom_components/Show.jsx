@@ -1,5 +1,5 @@
-export function Show({ condition, children }) {
-  if (condition) {
+export function Show({ when, children }) {
+  if (when) {
     return children;
   }
   return null;

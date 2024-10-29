@@ -1,5 +1,5 @@
-export function For({ each, childComponentMaker }) {
+export function For({ each, children }) {
   return <>
-    {each.map(childComponentMaker)}
+    {each.map(children)}
   </>;
 }
