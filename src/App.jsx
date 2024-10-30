@@ -9,6 +9,7 @@ import { For } from './custom_components/For.jsx';
 import { Show } from './custom_components/Show.jsx';
 import { useLocalStorage } from './hooks/localStorage.tsx';
 import useSelector from './hooks/Selector.tsx';
+import useSync from './hooks/Sync.ts';
 
 
 
@@ -59,8 +60,11 @@ const [theme, nextTheme, prevTheme] = useSelector(['theme', 'light', "dark"]);
 export default App;
 function CountSection2() {
   const [_, setCount] = useStore(countObject);
+  const [count, setCount_] = useSync("count", 0);
+  console.log(`count is ${count}`);
 
   return <>
+  <button onClick={() => {setCount_(count + 1)}}>regular count: {count}</button>
   <button onClick={() => setCount("count", countObject.count + 1)}>Count is {countObject.count}</button>
   <button onClick={() => setCount("double", countObject.count * 2)}>double is {countObject.double}</button>
   <button onClick={() => setCount("double", undefined)}>remove double</button>
